@@ -1,0 +1,14 @@
+<navbar [items]="navigationItems">
+	<navbar-pre-items>
+		<a class="navbar-brand" uiSref="app">OstrichSupport</a>
+	</navbar-pre-items>
+	<navbar-post-items>
+		<form class="form-inline pull-xs-right">
+			<input class="form-control" type="text" placeholder="Search">
+			<button class="btn btn-outline-success" type="submit">Search</button>
+		</form>
+	</navbar-post-items>
+</navbar>
+<div class="row">
+	<ui-view class="col-md-12"></ui-view>
+</div>

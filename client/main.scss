@@ -1,0 +1,14 @@
+@import "{}/node_modules/bootstrap/scss/bootstrap.scss";
+@import "./imports/icons/fontello-embedded";
+
+h1 {
+    font-size: 3rem;
+}
+
+h1 + p {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+}
+
+/* Icons */

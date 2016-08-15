@@ -1,0 +1,50 @@
+<h1>Ticket Search</h1>
+<p>
+	You can search all Pointshop 2 tickets here to find solutions to problems. A full text search is performed. Tickets are cached
+	and not updated regularily.
+</p>
+
+<div class="card card-outline-primary">
+	<div class="card-block">
+		<form class="search-form" class="form">
+			<div class="form-group">
+				<label class="sr-only" for="serachInput">Search Text</label>
+				<div class="input-group">
+					<div class="input-group-addon"><i class="icon icon-search"></i></div>
+					<input class="form-control"
+						type="text"
+						id="serachInput"
+						placeholder="Search"
+						[ngModelOptions]="{standalone: true}"
+						[ngModel]="settings.searchText"
+						(ngModelChange)="settings.searchText = $event; resubscribe()">
+				</div>
+			</div>
+		</form>
+
+		<h4 class="h4-heading">Filter Scripts</h4>
+		<div class="btn-group" role="group" style="margin-top: 0.5rem">
+			<button
+				type="button"
+				*ngFor="let scriptName of getScriptNames()"
+				[ngClass]="{active: settings.activeScripts[scriptName]}"
+				(click)="toggleScript(scriptName)"
+				class="btn btn-secondary">
+				{{scriptName}}
+			</button>
+		</div>
+	</div>
+</div>
+
+<div class="card" *ngFor="let ticket of getTickets()">
+	<div class="card-header">
+		Ticket by {{ticket.userName}} on <strong>{{ticket.scriptName}}</strong>
+	</div>
+	<div class="card-block">
+		<div *ngFor="let comment of ticket.comments">
+			<h6 class="card-title">{{comment.userName}}</h6>
+			<p class="card-text ticket-text" [innerHTML]="getTrustedHtml(comment)"></p>
+			</p>
+		</div>
+	</div>
+</div>
