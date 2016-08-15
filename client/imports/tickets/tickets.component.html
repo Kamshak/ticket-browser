@@ -11,12 +11,7 @@
 				<label class="sr-only" for="serachInput">Search Text</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="icon icon-search"></i></div>
-					<input class="form-control"
-						type="text"
-						id="serachInput"
-						placeholder="Search"
-						[ngModelOptions]="{standalone: true}"
-						[ngModel]="settings.searchText"
+					<input class="form-control" type="text" id="serachInput" placeholder="Search" [ngModelOptions]="{standalone: true}" [ngModel]="settings.searchText"
 						(ngModelChange)="settings.searchText = $event; resubscribe()">
 				</div>
 			</div>
@@ -24,27 +19,35 @@
 
 		<h4 class="h4-heading">Filter Scripts</h4>
 		<div class="btn-group" role="group" style="margin-top: 0.5rem">
-			<button
-				type="button"
-				*ngFor="let scriptName of getScriptNames()"
-				[ngClass]="{active: settings.activeScripts[scriptName]}"
-				(click)="toggleScript(scriptName)"
-				class="btn btn-secondary">
+			<button type="button" *ngFor="let scriptName of getScriptNames()" [ngClass]="{active: settings.activeScripts[scriptName]}"
+				(click)="toggleScript(scriptName)" class="btn btn-secondary">
 				{{scriptName}}
 			</button>
 		</div>
 	</div>
 </div>
-
-<div class="card" *ngFor="let ticket of getTickets()">
-	<div class="card-header">
-		Ticket by {{ticket.userName}} on <strong>{{ticket.scriptName}}</strong>
-	</div>
-	<div class="card-block">
-		<div *ngFor="let comment of ticket.comments">
-			<h6 class="card-title">{{comment.userName}}</h6>
-			<p class="card-text ticket-text" [innerHTML]="getTrustedHtml(comment)"></p>
-			</p>
+<div class="sk-cube-grid" [hidden]="!loading">
+	<div class="sk-cube sk-cube1"></div>
+	<div class="sk-cube sk-cube2"></div>
+	<div class="sk-cube sk-cube3"></div>
+	<div class="sk-cube sk-cube4"></div>
+	<div class="sk-cube sk-cube5"></div>
+	<div class="sk-cube sk-cube6"></div>
+	<div class="sk-cube sk-cube7"></div>
+	<div class="sk-cube sk-cube8"></div>
+	<div class="sk-cube sk-cube9"></div>
+</div>
+<div [hidden]="loading">
+	<div class="card" *ngFor="let ticket of getTickets()">
+		<div class="card-header">
+			Ticket by {{ticket.userName}} on <strong>{{ticket.scriptName}}</strong>
+		</div>
+		<div class="card-block">
+			<div *ngFor="let comment of ticket.comments">
+				<h6 class="card-title">{{comment.userName}}</h6>
+				<p class="card-text ticket-text" [innerHTML]="getTrustedHtml(comment)"></p>
+				</p>
+			</div>
 		</div>
 	</div>
 </div>

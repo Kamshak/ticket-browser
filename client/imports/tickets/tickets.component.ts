@@ -44,7 +44,6 @@ export class TicketsComponent extends MeteorComponent implements OnInit {
 		}
 	};
 
-	public searchText: string;
 	subscription: Meteor.SubscriptionHandle;
 
 	constructor(private sanitizer: DomSanitizationService) {
@@ -64,8 +63,13 @@ export class TicketsComponent extends MeteorComponent implements OnInit {
 		this.resubscribe();
 	}
 
+	searchPattern: RegExp;
 	public getTrustedHtml(comment: TicketComment) {
-		return this.sanitizer.bypassSecurityTrustHtml(comment.text);
+		let text = comment.text;
+		if (this.searchPattern) {
+			text = text.replace(this.searchPattern, "<mark>$1</mark>");
+		}
+		return this.sanitizer.bypassSecurityTrustHtml(text);
 	}
 
 	ngOnInit() {
@@ -74,6 +78,14 @@ export class TicketsComponent extends MeteorComponent implements OnInit {
 	}
 
 	public resubscribe: () => void = debounce(() => {
+		if (this.settings.searchText.length > 0) {
+			let safeSearch = this.settings.searchText.replace(/(\s+)/,"(<[^>]+>)*$1(<[^>]+>)*");
+			this.searchPattern = new RegExp("("+safeSearch+")", "gi");
+		} else {
+			this.searchPattern = null;
+		}
+
+
 		console.log("Resubscribe");
 		this.loading = true;
 		let activeScriptIds = chain(this.settings.activeScripts)
@@ -96,5 +108,5 @@ export class TicketsComponent extends MeteorComponent implements OnInit {
 			this.loading = false;
 			console.log("Subscription Finished", this.tickets.fetch());
 		}, true);
-	}, 100);
+	}, 750);
 }
